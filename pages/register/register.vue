@@ -20,29 +20,30 @@
 			</view>
 			<view class="login-form">
 				<view class="username-box">
-					<input type="text" placeholder="用户名" placeholder-style="color:#aaa"/>
-					<view class="employd" v-if="employ">用户名已存在</view>
+					<input type="text" placeholder="用户名" placeholder-style="color:#aaa" v-model="params.user"/>
+					<view class="employd" v-if="useremploy">用户名已存在</view>
 					<image src="../../static/image/index/ok.png" v-if="isUser" class="ok"></image>
 				</view>
 				<view class="email-box">
-					<input type="text" placeholder="邮箱" placeholder-style="color:#aaa" @blur="isEmailType" v-model="email"/>
+					<input type="text" placeholder="邮箱" placeholder-style="color:#aaa" @blur="isEmailType" v-model="params.mail"/>
 					<view class="employd" v-if="employ">邮箱已存在</view>
 					<view class="employd" v-if="invalid">邮箱无效</view>
 					<image src="../../static/image/index/ok.png" v-if="isEmail" class="ok"></image>
 				</view>
 				<view class="password-box">
-					<input :type="psType" placeholder="密码" placeholder-style="color:#aaa"/>
+					<input :value="params.password" :type="type" placeholder="密码" placeholder-style="color:#aaa" @blur="getPass($event)"/>
 					<view class="employd" v-if="employ">格式错误</view>
 					<image :src="lookUrl" class="look-ps" @tap="looks"></image>
 				</view>
 				<view class="yanzheng-box">
-					<input type="text" placeholder="验证码" class="yanzheng" placeholder-style="color:#aaa"/><button type="primary">获取验证码</button>
+					<input type="text" placeholder="验证码" class="yanzheng" placeholder-style="color:#aaa" v-model="params.code"/>
+					<button type="primary" :disabled="btDisabled" @tap="sendEmail">{{time+text}}</button>
 				</view>
 			</view>
 		</view>
 		
 		<view class="login-button">
-			<button type="primary" :disabled="isOk">注册</button>
+			<button type="primary"  @tap="register">注册</button>
 		</view>
 	</view>
   </view>
@@ -52,37 +53,57 @@
 export default {
   data() {
     return {
+		btDisabled:false,
+		interval:0,
+		time:'',
+		text:'获取邮箱验证码',
+		type:'password',
+		useremploy:false,
 		isOk:true,
-		email:'',
 		employ:false,
-		psType:'password',
 		isUser:false,
 		isEmail:false,
 		showPass:false,
 		invalid:false,
-		lookUrl:'../../static/image/index/hideps.png'
+		lookUrl:'../../static/image/index/hideps.png',
+		params:{
+			user:'',
+			password:'',
+			mail:'',
+			code:''
+		}
 	};
+  },
+  watch:{
+	time:function(val){
+		if(val<0){
+			this.time =''
+			this.text ='获取邮箱验证码'
+			clearInterval(this.interval)
+			this.btDisabled =false
+			return this.text
+		}
+	}  
   },
   methods: {
 	  //切换查看密码
+	  getPass:function(event){
+		  this.params.password =event.detail.value
+	  },
 	  looks: function(){
 			if(this.showPass){
-				this.psType ="password";
+				this.type ="password";
 				this.lookUrl ='../../static/image/index/hideps.png'
 				this.showPass=!this.showPass;
-				console.log(this.psType)
-				console.log(this.showPass)
 			}else{
-				this.psType ="text";
+				this.type ="text";
 				this.lookUrl ='../../static/image/index/showps.png'
 				this.showPass=!this.showPass
-				console.log(this.psType)
-				console.log(this.showPass)
 			}
 	  },
 	  //判断邮箱格式
 	  isEmailType:function(e){
-		  var email = this.email
+		  var email = this.params.mail
 		  var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
 		  if(reg.test(email)){
 		  	this.isEmail =true;
@@ -97,7 +118,32 @@ export default {
 		  uni.navigateTo({
 		  	url: '../login/login'
 		  })
-	  }
+	  },
+	 async register () {
+	        const result = await this.$request({
+	          url: '/user/reg',
+			  method:'POST',
+	          data: this.params
+	        })
+	  		console.log(result)
+	  	   },
+	  async sendEmail () {
+	        const result2 = await this.$request({
+	          url: '/user/getMailCode',
+			  method:'POST',
+	          data: {mail:this.params.mail}
+	        })
+	  		console.log(result2)
+			if(result2.data.code===0){
+				this.text ='S后重新发送'
+				this.time =60
+				this.btDisabled =true
+				this.interval = setInterval(()=>{
+					this.time--
+				},1000)
+			}
+	  	   }     
+	  
   }
 };
 </script>
@@ -212,6 +258,16 @@ export default {
 			}
 			.password-box{
 				position: relative;
+				input{
+					margin: 12rpx;
+					height: 88rpx;
+					border-bottom: 1rpx solid #999999;
+				}
+				input:hover{
+					margin: 12rpx;
+					height: 88rpx;
+					border-bottom: 1rpx solid blue;
+				}
 			}
 			.ok{
 				width: 42rpx;

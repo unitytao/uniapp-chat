@@ -41,6 +41,13 @@
         ,{
             "path" : "pages/chatPage/chatPage",
             "style" : {}
+        },
+		{
+		    "path" : "pages/joinChat/joinChat",
+		    "style" : {}
+		}    ,{
+            "path" : "pages/privateChat/privateChat",
+            "style" : {}
         }
     ],
 	"globalStyle": {

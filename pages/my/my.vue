@@ -20,7 +20,7 @@
 			</view>
 			<view class="center">
 				<view class="img-box">
-					<image src="../../static/image/img/user.jpg"></image>
+					<image :src="userInfo.img"></image>
 				</view>
 			</view>
 			<view class="right">
@@ -61,7 +61,7 @@
 					<text>昵称</text>
 				</view>
 				<view class="center">
-					<text>阿凡达</text>
+					<text>{{userInfo.user}}</text>
 				</view>
 				<view class="right">
 					<image src="../../static/image/index/more.png"></image>
@@ -74,7 +74,7 @@
 					<text>性别</text>
 				</view>
 				<view class="center">
-					<text>男</text>
+					<text>{{list[userInfo.sex]}}</text>
 				</view>
 				<view class="right">
 					<image src="../../static/image/index/more.png"></image>
@@ -113,7 +113,7 @@
 					<text>邮箱</text>
 				</view>
 				<view class="center">
-					<text>1060065729@qq.com</text>
+					<text>{{userInfo.mail}}</text>
 				</view>
 				<view class="right">
 					<image src="../../static/image/index/more.png"></image>
@@ -134,22 +134,37 @@
 			</view>
 		</view>
 		<view class="quit-button">
-			<button type="warn">退出登录</button>
+			<button type="warn" @tap="toLogin">退出登录</button>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 	export default {
 		data() {
 			return {
-				
+				list:['女','男']
 			}
+		},
+		computed:{
+			...mapState(['userInfo'])
 		},
 		methods: {
 			back:function(){
 				uni.navigateBack({
 					delta:1
+				})
+			},
+			toLogin:function(){
+				uni.removeStorage({
+				    key: 'userinfo',
+				    success: function (res) {
+				        console.log('success');
+				    }
+				});
+				uni.navigateTo({
+					url:'../login/login'
 				})
 			}
 		}

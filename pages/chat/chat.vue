@@ -4,7 +4,7 @@
 		<view class="content">
 				<view class="top-bar">
 					<view class="top-bar-left">
-						<image src="../../static/image/img/user.jpg"></image>
+						<image :src="userInfo.img"></image>
 					</view>
 					<view class="top-bar-center">
 						<label>消息</label>
@@ -42,7 +42,7 @@
 					</view>
 						<view class="friends">
 						<view class="friends-list">
-								<view class="friend-item" v-for="(item, index) in friends" :key="index">
+								<view class="friend-item" v-for="(item, index) in friends" :key="index" @tap="toChat">
 								<view class="friend-item-left">	
 								<view class="friend-img">
 									<image :src="item.imgUrl"></image>
@@ -71,9 +71,13 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 	import datas from '../../commons/js/datas.js'
 	import myFun from '../../commons/js/dataTransform.js'
 	export default {
+		computed:{
+			...mapState(['userInfo'])
+		},
 		data() {
 			return {
 				friends:[]
@@ -96,6 +100,11 @@
 			toSearch: function(){
 				uni.navigateTo({
 					url:'../search/search'
+				})
+			},
+			toChat: function(){
+				uni.navigateTo({
+					url:'../joinChat/joinChat'
 				})
 			}
 	},

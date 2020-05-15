@@ -1,14 +1,22 @@
 <script>
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
+			let userInfo = uni.getStorageSync('userInfo') // 判断有没有username，有则说明登录过了，重新把缓存存进vuex
+			            if (userInfo.user) {
+			                uni.getStorage({
+			                    key: 'userInfo',
+			                    success: (res) => {
+										 // console.log(res)
+			                       this.$store.dispatch('recordUser',res.data)
+								   console.log(this.$store.state.userInfo)
+			                    }
+			                })
+						}
 		},
 		onShow: function() {
-			console.log('App Show')
 		},
 		onHide: function() {
-			console.log('App Hide')
-		}
+		},
 	}
 </script>
 

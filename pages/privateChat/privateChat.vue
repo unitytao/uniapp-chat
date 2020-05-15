@@ -128,11 +128,11 @@ export default {
 	  this.name=this.$store.state.userInfo.username
 	  this.img =e.img
 	  console.log(this.name,this.img)
-	  this.getMsg()
+	  // this.getMsg()
 	  this.join()
-	  this.welcome()
+	  // this.welcome()
 	  this.getPravteMsg()
-	  this.disconnection()
+	  // this.disconnection()
   },
 
   methods: {
@@ -162,52 +162,52 @@ export default {
 		  			this.words =''
 		  }
 	  },
-	  send:function(){
-		  if(this.words.length>0){
-			//发送
-			let message ={
-					name:this.name,
-					uid:0,
-					msg:this.words,
-					data:getDate(),
-					img:this.img,
-					id:2
-			}
-			this.Arr.push(message)
-			this.socket.emit('message',message)
-			this.words =''
-		  }
-	  },
-	  getMsg:function(){
-		  this.socket.on('gbmsg', data =>{
-			  data.id =1
-			 this.Arr.push(data)
-		  })
-	  },
+	  // send:function(){
+		 //  if(this.words.length>0){
+			// //发送
+			// let message ={
+			// 		name:this.name,
+			// 		uid:0,
+			// 		msg:this.words,
+			// 		data:getDate(),
+			// 		img:this.img,
+			// 		id:2
+			// }
+			// this.Arr.push(message)
+			// this.socket.emit('message',message)
+			// this.words =''
+		 //  }
+	  // },
+	  // getMsg:function(){
+		 //  this.socket.on('gbmsg', data =>{
+			//   data.id =1
+			//  this.Arr.push(data)
+		 //  })
+	  // },
 	  getPravteMsg:function(){
 		  this.socket.on('receive private message', data =>{
 		  			  data.id =1
 		  			 this.Arr.push(data)
 		  })
 	  },
-	  welcome: function(){
-		  this.socket.on('welcome', name =>{
-			  let item ={
-				  name: '欢迎' +name +'加入群聊',
-				  id:3
-			  }
-				this.Arr.push(item)
-		  })
-	  },
-	  disconnection:function(){
-		    this.socket.on('disconnection',data =>{
-				let item ={
-				name: data +'离开了群聊',
-				id:3
-				}
-				this.Arr.push(item)
-			})
-	  }
+	  // welcome: function(){
+		 //  this.socket.on('welcome', name =>{
+			//   let item ={
+			// 	  name: '欢迎' +name +'加入群聊',
+			// 	  id:3
+			//   }
+			// 	this.Arr.push(item)
+		 //  })
+	  // },
+	  // disconnection:function(){
+		 //    this.socket.on('disconnection',data =>{
+			// 	let item ={
+			// 	name: data +'离开了群聊',
+			// 	id:3
+			// 	}
+			// 	this.Arr.push(item)
+			// })
+	  // }
   },
     
 };
@@ -422,3 +422,4 @@ page {
 	}
 }
 </style>
+

@@ -13,7 +13,7 @@ export default{
 			{
 				id:2,
 				imgUrl:'lm.jpg',
-				tip:2,
+				tip:0,
 				name:'蕾姆',
 				time:new Date(),
 				news:'主人最好了',
@@ -22,7 +22,7 @@ export default{
 			{
 				id:3,
 				imgUrl:'yjyx.jpg',
-				tip:3,
+				tip:0,
 				name:'衣锦夜行',
 				time:new Date(),
 				news:'死人出列，咱俩碰一碰',
@@ -30,87 +30,13 @@ export default{
 			},
 			{
 				id:4,
-				imgUrl:'lm.jpg',
-				tip:99,
-				name:'蕾姆',
-				time:new Date(),
-				news:'主人最好了',
-				email:'fawrar@163.com'
-			},{
-				id:5,
-				imgUrl:'lm.jpg',
+				imgUrl:'user.jpg',
 				tip:0,
-				name:'蕾姆',
+				name:'二次元交流室',
 				time:new Date(),
-				news:'主人最好了',
-				email:'fawrar@163.com'
-			},{
-				id:6,
-				imgUrl:'lm.jpg',
-				tip:2,
-				name:'蕾姆',
-				time:new Date(),
-				news:'主人最好了',
-				email:'fawrar@163.com'
-			},{
-				id:7,
-				imgUrl:'lm.jpg',
-				tip:2,
-				name:'蕾姆',
-				time:new Date(),
-				news:'主人最好了',
-				email:'fawrar@163.com'
-			},{
-				id:8,
-				imgUrl:'lm.jpg',
-				tip:2,
-				name:'蕾姆',
-				time:new Date(),
-				news:'主人最好了',
-				email:'fawrar@163.com'
-			},{
-				id:9,
-				imgUrl:'lm.jpg',
-				tip:2,
-				name:'蕾姆',
-				time:new Date(),
-				news:'主人最好了',
-				email:'fawrar@163.com'
-			},{
-				id:10,
-				imgUrl:'lm.jpg',
-				tip:2,
-				name:'蕾姆',
-				time:new Date(),
-				news:'主人最好了',
-				email:'fawrar@163.com'
-			},
-			{
-				id:11,
-				imgUrl:'lm.jpg',
-				tip:2,
-				name:'蕾姆',
-				time:new Date(),
-				news:'主人最好了',
-				email:'fawrar@163.com'
-			},
-			{
-				id:12,
-				imgUrl:'lm.jpg',
-				tip:2,
-				name:'蕾姆',
-				time:new Date(),
-				news:'主人最好了',
-				email:'fawrar@163.com'
-			},
-			{
-				id:13,
-				imgUrl:'lm.jpg',
-				tip:2,
-				name:'蕾姆',
-				time:new Date(),
-				news:'主人最好了',
-				email:'fawrar@163.com'
+				news:'我的老天鹅啊',
+				type:'群'
+			
 			}]	
 			return friendList
 	},

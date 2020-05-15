@@ -1,9 +1,15 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import App from './App'
+import request from './utils/request.js'
+import store from './store/index.js'
 import io from 'commons/js/weapp.socket.io.js'
-
+Vue.use(Vuex)
 Vue.config.productionTip = false
-Vue.prototype.socket= io('http://192.168.0.103:8888')
+Vue.prototype.$store =store
+Vue.prototype.$request =request
+Vue.prototype.socket= io('http://localhost:8888')
+
 
 App.mpType = 'app'
 

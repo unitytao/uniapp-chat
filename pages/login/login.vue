@@ -19,8 +19,8 @@
 				<text>您好，欢迎来到Ac!</text>
 			</view>
 			<view class="login-form">
-				<input type="text" placeholder="用户名"/>
-				<input type="password" placeholder="密码"/>
+				<input type="text" placeholder="用户名" v-model="params.user"/>
+				<input type="password" placeholder="密码" v-model="params.password"/>
 			</view>
 			<view class="tips" v-if="isErr">
 				<text>用户名或密码错误!</text>
@@ -28,7 +28,7 @@
 		</view>
 		
 		<view class="login-button">
-			<button type="primary" @tap="toMain">登录</button>
+			<button type="primary" @tap="login">登录</button>
 		</view>
 	</view>
   </view>
@@ -38,20 +38,68 @@
 export default {
   data() {
     return {
-		isErr:false
+		isErr:false,
+		errMsg:'',
+		params:{
+			user:'',
+			password:''
+		}
 	};
   },
   methods: {
+	  async login () {
+			if(this.params.user!=''&&this.params.password!=''){
+				const result = await this.$request({
+				   url: '/user/login',
+					  method:'POST',
+				   data: this.params
+				 })
+				console.log(result)
+				if(result.data.code===0){
+						uni.showToast({
+								   title:"登陆成功",
+								   icon:"none"
+							   })
+						const userInfo ={
+							img:result.data.userInfo[0].img,
+							mail:result.data.userInfo[0].mail,
+							user:result.data.userInfo[0].user,
+							sex:result.data.userInfo[0].sex,
+							_id:result.data.userInfo[0]._id
+						}
+						  this.$store.dispatch('recordUser',userInfo)
+						  console.log(this.$store.state.userInfo)
+						   uni.setStorage({
+						                  key: 'userInfo',
+						                  data: userInfo
+						              })
+						  uni.switchTab({
+						  	url:'../chat/chat'
+						  })
+				}
+						  
+			}
+	   	   },
 	  toRefister: function(){
 	  		  uni.navigateTo({
 	  		  	url: '../register/register'
 	  		  })
 	  },
-	  toMain:function(){
-		  uni.switchTab({
-		  	url:'../chat/chat'
-		  })
-	  }
+	  // toMain:function(){
+		 //  if(this.username!=''&&this.password!=''){
+			//   const userInfo ={
+			//   		username : this.username
+			// 	}
+			//   this.$store.dispatch('recordUser',userInfo)
+			//    uni.setStorage({
+			//                   key: 'userinfo',
+			//                   data: userInfo
+			//               })
+			//   uni.switchTab({
+			//   	url:'../chat/chat'
+			//   })
+		 //  }
+	  // }
   }
 };
 </script>
